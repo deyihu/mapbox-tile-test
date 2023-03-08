@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Map - Display a map</title>
+<style type="text/css">
+    html,
+    body {
+        margin: 0px;
+        height: 100%;
+        width: 100%
+    }
+
+    .container {
+        width: 100%;
+        height: 100%
+    }
+</style>
+<link rel="stylesheet" href="./../node_modules/mapbox-gl/dist/mapbox-gl.css">
+<script type="text/javascript" src="./../node_modules/mapbox-gl/dist/mapbox-gl.js"></script>
+<script type="text/javascript" src="./../node_modules/axios/dist/axios.js"></script>
+
+<body>
+
+    <div id="map" class="container"></div>
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiaHVkZXlpIiwiYSI6ImNqMmZybW04bDA2enIzM29nOWx3emw3dDUifQ.K2sFro4abZ772VSvikWDeg';
+        mapboxgl.config.MAX_PARALLEL_IMAGE_REQUESTS = 256;
+        const map = new mapboxgl.Map({
+            container: 'map', // container ID
+            style: {
+                'version': 8,
+                'sources': {
+                    'raster-tiles': {
+                        'type': 'raster',
+                        'tiles': [
+                            'http://localhost:9900/tile/{z}/{x}/{y}'
+                        ],
+                        'tileSize': 256,
+                        'attribution':
+                            'Map tiles by <a target="_top" rel="noopener" href="http://stamen.com">Stamen Design</a>, under <a target="_top" rel="noopener" href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a target="_top" rel="noopener" href="http://openstreetmap.org">OpenStreetMap</a>, under <a target="_top" rel="noopener" href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>'
+                    }
+                },
+                'layers': [
+                    {
+                        'id': 'simple-tiles',
+                        'type': 'raster',
+                        'source': 'raster-tiles',
+                        'minzoom': 0,
+                        'maxzoom': 22
+                    }
+                ]
+            },
+            center: [-74.5, 40], // starting position
+            zoom: 2 // starting zoom
+        });
+
+        setTimeout(() => {
+            console.log('start get data')
+            axios.get('http://localhost:9900/json/get', {
+                timeout: 10000
+            }).then(data => {
+                console.log(data);
+            }).catch(err => {
+                console.log(err);
+            })
+        }, 2000);
+
+    </script>
+</body>
+
+</html>
