@@ -26,6 +26,7 @@
 
     <script>
         mapboxgl.accessToken = 'pk.eyJ1IjoiaHVkZXlpIiwiYSI6ImNqMmZybW04bDA2enIzM29nOWx3emw3dDUifQ.K2sFro4abZ772VSvikWDeg';
+        //如果把这个参数调整的为5,那么下面的业务请求就不会超时
         mapboxgl.config.MAX_PARALLEL_IMAGE_REQUESTS = 256;
         const map = new mapboxgl.Map({
             container: 'map', // container ID
